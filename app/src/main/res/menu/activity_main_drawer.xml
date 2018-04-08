@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu_profile"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_marked"
+            android:icon="@drawable/ic_menu_marked"
+            android:title="Marked" />
+        <item
+            android:id="@+id/nav_persons"
+            android:icon="@drawable/ic_menu_people"
+            android:title="Photographers" />
+        <item
+            android:id="@+id/nav_feed"
+            android:icon="@drawable/ic_menu_feed"
+            android:title="Feed" />
+        <item
+            android:id="@+id/nav_stat"
+            android:icon="@drawable/ic_menu_stat"
+            android:title="Statistic" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_menu_exit"
+            android:title="Sign Out"/>
+    </group>
+
+</menu>

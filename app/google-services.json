@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "361639059086",
+    "firebase_url": "https://photochange-3e729.firebaseio.com",
+    "project_id": "photochange-3e729",
+    "storage_bucket": "photochange-3e729.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361639059086:android:269057a88ec16c69",
+        "android_client_info": {
+          "package_name": "photochange.tosya.photochange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361639059086-4qe3lpqmlt78l0llaifvpnbl2d0j2jrl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "photochange.tosya.photochange",
+            "certificate_hash": "eb78cb2856e31920f0cd2fcfb8703f354bd78f5c"
+          }
+        },
+        {
+          "client_id": "361639059086-ru02ims5p44a41e543lcalfo6r71q8cd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWN4R0gP7lFNIGxFykXCIVMiYjFwLgjJM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361639059086-ru02ims5p44a41e543lcalfo6r71q8cd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

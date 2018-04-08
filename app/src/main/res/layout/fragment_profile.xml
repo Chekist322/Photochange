@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:background="@color/lightGray">
+
+    <RelativeLayout
+        android:id="@+id/time_in_app_container"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/black">
+        <TextView
+            android:textColor="@color/white"
+            android:id="@+id/time_in_app_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="24dp"
+            android:layout_marginStart="10dp"
+            android:text="time_in_app"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/profile_location_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/time_in_app_container"
+        android:layout_below="@+id/time_in_app_container"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:text="Location"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/profile_location_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_location_label"
+        android:layout_below="@+id/profile_location_label"
+        android:layout_marginTop="5dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/profile_status_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_location_text_view"
+        android:layout_below="@+id/profile_location_text_view"
+        android:layout_marginTop="15dp"
+        android:text="Status"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/profile_status_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_status_label"
+        android:layout_below="@+id/profile_status_label"
+        android:layout_marginTop="5dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/profile_email_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_status_text_view"
+        android:layout_below="@+id/profile_status_text_view"
+        android:layout_marginTop="15dp"
+        android:text="Email"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/profile_email_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_email_label"
+        android:layout_below="@+id/profile_email_label"
+        android:layout_marginTop="5dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/profile_last_time_online_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_email_text_view"
+        android:layout_below="@+id/profile_email_text_view"
+        android:layout_marginTop="15dp"
+        android:text="Last time online"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/profile_last_time_online_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_last_time_online_label"
+        android:layout_below="@+id/profile_last_time_online_label"
+        android:layout_marginTop="5dp"
+        android:text="TextView" />
+</RelativeLayout>
