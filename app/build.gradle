@@ -19,6 +19,7 @@ android {
 }
 
 dependencies {
+    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
     implementation 'com.google.firebase:firebase-core:12.0.1'
     implementation 'com.google.firebase:firebase-auth:12.0.1'
     implementation fileTree(include: ['*.jar'], dir: 'libs')

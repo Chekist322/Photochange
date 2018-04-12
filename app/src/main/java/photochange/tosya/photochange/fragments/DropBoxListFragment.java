@@ -10,6 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.FlipInRightYAnimator;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
+import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
+import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import photochange.tosya.photochange.adapter.DropBoxListRecyclerViewAdapter;
 import photochange.tosya.photochange.R;
 import photochange.tosya.photochange.content.DropBoxListContent;
@@ -23,11 +34,14 @@ import photochange.tosya.photochange.content.DropBoxListContent.DropBoxItem;
  */
 public abstract class DropBoxListFragment extends Fragment {
 
+
+
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
+    public static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
+    public RecyclerView mRecyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -53,15 +67,22 @@ public abstract class DropBoxListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            mRecyclerView = (RecyclerView) view;
+            mRecyclerView.setItemAnimator(new LandingAnimator());
+            mRecyclerView.getItemAnimator().setAddDuration(500);
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new DropBoxListRecyclerViewAdapter(DropBoxListContent.ITEMS, mListener));
         }
         return view;
+    }
+
+
+
+    protected void setAdapter(DropBoxListRecyclerViewAdapter adapter) {
+        mRecyclerView.swapAdapter(adapter, true);
     }
 
 

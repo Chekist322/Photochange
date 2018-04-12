@@ -8,9 +8,9 @@
 
     <photochange.tosya.photochange.custom.RoundImageView
         android:id="@+id/photograph_avatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="16dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_margin="14dp"
         app:srcCompat="@drawable/blur_background" />
 
 

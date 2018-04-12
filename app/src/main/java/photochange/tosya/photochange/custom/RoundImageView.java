@@ -27,6 +27,7 @@ public class RoundImageView extends android.support.v7.widget.AppCompatImageView
         Path clipPath = new Path();
         RectF rect = new RectF(0, 0, this.getWidth(), this.getHeight());
         clipPath.addRoundRect(rect, radius, radius, Path.Direction.CW);
+
         canvas.clipPath(clipPath);
         super.onDraw(canvas);
     }

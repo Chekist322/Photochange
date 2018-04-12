@@ -1,5 +1,7 @@
 package photochange.tosya.photochange.content;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +18,7 @@ public class DropBoxListContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DropBoxItem> ITEMS = new ArrayList<DropBoxItem>();
+    public static final List<DropBoxItem> ITEMS = new ArrayList<>();
 
     /**
      * A map of sample (dummy) items, by ID.
@@ -34,11 +36,15 @@ public class DropBoxListContent {
 
     private static void addItem(DropBoxItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(item.name, item);
     }
 
     private static DropBoxItem createDummyItem(int position) {
-        return new DropBoxItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        return new DropBoxItem(String.valueOf(position), null, makeDetails(position));
+    }
+
+    private static DropBoxItem createItemFromUrl(int position) {
+        return new DropBoxItem(String.valueOf(position), null, "");
     }
 
     private static String makeDetails(int position) {
@@ -54,19 +60,19 @@ public class DropBoxListContent {
      * A dummy item representing a piece of content.
      */
     public static class DropBoxItem {
-        public final String id;
-        public final String content;
-        public final String details;
+        public final String name;
+        public final Bitmap avatar;
+        public final String path;
 
-        public DropBoxItem(String id, String content, String details) {
-            this.id = id;
-            this.content = content;
-            this.details = details;
+        public DropBoxItem(String name, Bitmap avatar, String path) {
+            this.name = name;
+            this.avatar = avatar;
+            this.path = path;
         }
 
         @Override
         public String toString() {
-            return content;
+            return name;
         }
     }
 }
