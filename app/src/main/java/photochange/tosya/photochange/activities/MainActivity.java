@@ -87,15 +87,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ProfileFragment()).commit();
-        } else if (id == R.id.nav_marked) {
-
-        } else if (id == R.id.nav_persons) {
+        }  else if (id == R.id.nav_persons) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new PhotographersFragment()).commit();
-        } else if (id == R.id.nav_feed) {
-
-        } else if (id == R.id.nav_stat) {
-
-        } else if (id == R.id.nav_exit) {
+        }  else if (id == R.id.nav_exit) {
             mAuth.signOut();
             startActivity(new Intent(this, LoginActivity.class));
             finish();

@@ -3,6 +3,7 @@ package photochange.tosya.photochange.fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import photochange.tosya.photochange.R;
+import photochange.tosya.photochange.activities.PhotoViewActivity;
 import photochange.tosya.photochange.adapter.DropBoxListRecyclerViewAdapter;
 import photochange.tosya.photochange.content.DropBoxListContent;
 
@@ -197,7 +199,10 @@ public class AlbumFragment extends DropBoxListFragment {
                             @Override
                             public void onListFragmentInteraction(DropBoxListContent.DropBoxItem item) {
                                 Log.i(TAG, "onListFragmentInteraction: interacted " + item.path);
-
+                                Intent intent = PhotoViewActivity.getStartIntent(item.avatar, getActivity());
+                                intent.putExtra("PATH", item.path);
+                                intent.putExtra("NAME", item.name);
+                                startActivity(intent);
                             }
                         }));
                     }
@@ -205,14 +210,13 @@ public class AlbumFragment extends DropBoxListFragment {
             }
         });
         dropBoxThread.start();
-
     }
 
     private String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
-        String line = null;
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
