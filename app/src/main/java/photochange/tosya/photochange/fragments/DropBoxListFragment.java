@@ -115,6 +115,6 @@ public abstract class DropBoxListFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DropBoxItem item);
+        void onListFragmentInteraction(DropBoxItem item, int position);
     }
 }

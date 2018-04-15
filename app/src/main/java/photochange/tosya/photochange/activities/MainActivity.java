@@ -1,12 +1,11 @@
 package photochange.tosya.photochange.activities;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.SupportActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,9 +18,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import photochange.tosya.photochange.fragments.DropBoxListFragment;
 import photochange.tosya.photochange.R;
 import photochange.tosya.photochange.content.DropBoxListContent;
+import photochange.tosya.photochange.fragments.DropBoxListFragment;
 import photochange.tosya.photochange.fragments.PhotographersFragment;
 import photochange.tosya.photochange.fragments.ProfileFragment;
 
@@ -86,6 +85,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
+            FragmentManager fm = getSupportFragmentManager();
+            for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ProfileFragment()).commit();
         }  else if (id == R.id.nav_persons) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new PhotographersFragment()).commit();
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DropBoxListContent.DropBoxItem item) {
+    public void onListFragmentInteraction(DropBoxListContent.DropBoxItem item, int position) {
 
     }
 }

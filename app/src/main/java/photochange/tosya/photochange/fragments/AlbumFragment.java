@@ -50,6 +50,8 @@ public class AlbumFragment extends DropBoxListFragment {
     String mPath;
     boolean passwordIsHere = false;
 
+    TextView mPageLabel;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class AlbumFragment extends DropBoxListFragment {
         if (getArguments() != null) {
             mPath = getArguments().getString("PATH");
 
-            TextView mPageLabel = getActivity().findViewById(R.id.page_label);
+            mPageLabel = getActivity().findViewById(R.id.page_label);
             if (mPageLabel != null) {
                 String[] splited = mPath.split("/");
                 mPageLabel.setText("Album \"" + splited[3] + "\" (" + splited[2] + ")");
@@ -197,11 +199,11 @@ public class AlbumFragment extends DropBoxListFragment {
                         dialog.dismiss();
                         setAdapter(new DropBoxListRecyclerViewAdapter(items, new OnListFragmentInteractionListener() {
                             @Override
-                            public void onListFragmentInteraction(DropBoxListContent.DropBoxItem item) {
+                            public void onListFragmentInteraction(DropBoxListContent.DropBoxItem item, int position) {
                                 Log.i(TAG, "onListFragmentInteraction: interacted " + item.path);
-                                Intent intent = PhotoViewActivity.getStartIntent(item.avatar, getActivity());
-                                intent.putExtra("PATH", item.path);
-                                intent.putExtra("NAME", item.name);
+                                Intent intent = PhotoViewActivity.getStartIntent(items, getActivity());
+                                intent.putExtra("POSITION", position);
+                                intent.putExtra("ALBUM_NAME", mPageLabel.getText());
                                 startActivity(intent);
                             }
                         }));

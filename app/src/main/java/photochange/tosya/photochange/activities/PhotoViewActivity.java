@@ -2,17 +2,20 @@ package photochange.tosya.photochange.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,16 +29,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import photochange.tosya.photochange.R;
+import photochange.tosya.photochange.content.DropBoxListContent;
+import photochange.tosya.photochange.fragments.PhotoViewFragment;
 
 public class PhotoViewActivity extends AppCompatActivity {
 
-    @BindView(R.id.photo_view)
-    ImageView mPhotoView;
     @BindView(R.id.like_button)
     ImageButton mLikeButton;
     @BindView(R.id.dislike_button)
@@ -43,44 +47,98 @@ public class PhotoViewActivity extends AppCompatActivity {
     @BindView(R.id.reading_progress_bar)
     ProgressBar mBar;
 
-    static Bitmap mBitmap;
-    String mPath;
     boolean mEstimate;
+    static List<DropBoxListContent.DropBoxItem> itemList;
 
     Handler mUiHandler = new Handler(Looper.getMainLooper());
 
     FirebaseDatabase mDatabase;
     DatabaseReference mReference;
 
+    ViewPager mViewPager;
+    PagerAdapter mPagerAdapter;
+    int startId;
+    int mCurrentPosition;
+
+    private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+
+        public MyFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return PhotoViewFragment.newInstance(position, itemList.get(position).avatar);
+        }
+
+        @Override
+        public int getCount() {
+            return itemList.size();
+        }
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo_view);
-        ButterKnife.bind(this);
-        mLikeButton.setEnabled(false);
-        mDislikeButton.setEnabled(false);
-        Toolbar toolbar = findViewById(R.id.toolbar2);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.arrow_left_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        if (mBitmap != null)
-            mPhotoView.setImageBitmap(mBitmap);
 
         if (getIntent() != null) {
-            mPath = getIntent().getStringExtra("PATH");
-            setTitle(getIntent().getStringExtra("NAME"));
+            setTitle(getIntent().getStringExtra("ALBUM_NAME"));
+            startId = getIntent().getIntExtra("POSITION", 0);
+
+            setContentView(R.layout.activity_photo_view);
+            ButterKnife.bind(this);
+            mLikeButton.setEnabled(false);
+            mDislikeButton.setEnabled(false);
+            Toolbar toolbar = findViewById(R.id.toolbar2);
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationIcon(R.drawable.arrow_left_white);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+
+
+            mViewPager = findViewById(R.id.view_pager);
+            mPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+            mViewPager.setAdapter(mPagerAdapter);
+            mViewPager.setCurrentItem(startId);
+
+            mBar.setVisibility(View.VISIBLE);
+            mDatabase = FirebaseDatabase.getInstance();
+            mReference = mDatabase.getReference("estimate/" + md5(itemList.get(startId).path));
+            updateReference();
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    updateReference();
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+
         }
-        mBar.setVisibility(View.VISIBLE);
-        mDatabase = FirebaseDatabase.getInstance();
-        mReference = mDatabase.getReference("estimate/" + md5(mPath));
+    }
+
+    public static Intent getStartIntent(List<DropBoxListContent.DropBoxItem> items, Context context) {
+        itemList = items;
+        return new Intent(context, PhotoViewActivity.class);
+    }
+
+
+    private void updateReference() {
+        mReference = mDatabase.getReference("estimate/" + md5(itemList.get(mViewPager.getCurrentItem()).path));
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -111,11 +169,6 @@ public class PhotoViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public static Intent getStartIntent(Bitmap bitmap, Context context) {
-        mBitmap = bitmap;
-        return new Intent(context, PhotoViewActivity.class);
     }
 
     @OnClick(R.id.like_button)
@@ -161,9 +214,9 @@ public class PhotoViewActivity extends AppCompatActivity {
             byte[] a = digest.digest();
             int len = a.length;
             StringBuilder sb = new StringBuilder(len << 1);
-            for (int i = 0; i < len; i++) {
-                sb.append(Character.forDigit((a[i] & 0xf0) >> 4, 16));
-                sb.append(Character.forDigit(a[i] & 0x0f, 16));
+            for (byte anA : a) {
+                sb.append(Character.forDigit((anA & 0xf0) >> 4, 16));
+                sb.append(Character.forDigit(anA & 0x0f, 16));
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {

@@ -100,7 +100,7 @@ public class PhotographersFragment extends DropBoxListFragment {
                             dialog.dismiss();
                             setAdapter(new DropBoxListRecyclerViewAdapter(items, new OnListFragmentInteractionListener() {
                                 @Override
-                                public void onListFragmentInteraction(DropBoxListContent.DropBoxItem item) {
+                                public void onListFragmentInteraction(DropBoxListContent.DropBoxItem item, int position) {
                                     Log.i(TAG, "onListFragmentInteraction: interacted " + item.path);
                                     PhotographerAlbumsFragment fragment = new PhotographerAlbumsFragment();
                                     Bundle bundle = new Bundle();
